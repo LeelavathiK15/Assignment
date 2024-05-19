@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+    <script >
+
+let taskList = [];
+
+function addTask() {
+    let taskInput = document.getElementById('taskInput');
+    let taskText = taskInput.value.trim();
+    
+    if (taskText !== '') {
+        let task = {
+            text: taskText,
+            completed: false
+        };
+        
+        taskList.push(task);
+        taskInput.value = '';
+        displayTasks();
+    }
+}
+
+function toggleComplete(index) {
+    taskList[index].completed = !taskList[index].completed;
+    displayTasks();
+}
+
+function deleteTask(index) {
+    taskList.splice(index, 1);
+    displayTasks();
+}
+
+function displayTasks() {
+    let taskListElement = document.getElementById('taskList');
+    taskListElement.innerHTML = '';
+    
+    taskList.forEach((task, index) => {
+        let li = document.createElement('li');
+        li.textContent = task.text;
+        
+        if (task.completed) {
+            li.classList.add('completed');
+        }
+        
+        li.addEventListener('click', () => toggleComplete(index));
+        li.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            deleteTask(index);
+        });
+        
+        taskListElement.appendChild(li);
+    });
+}
+    </script>
+</body>
+</html>

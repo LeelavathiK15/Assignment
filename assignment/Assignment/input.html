@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Validation</title>
+</head>
+<body>
+    <h1>Input Validation Example</h1>
+    <form id="validationForm">
+        <label for="inputType">Input Type:</label>
+        <input type="text" id="inputType" name="inputType" required>
+        <br><br>
+        <label for="value">Value:</label>
+        <input type="text" id="value" name="value" required>
+        <br><br>
+        <button type="submit">submit</button>
+    </form>
+    <div id="validationResult"></div>
+
+    <script >
+
+
+const validationRules = {
+    text: /^[A-Za-z\s]+$/,
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    password: /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,20}$/
+};
+
+if (validationRules.hasOwnProperty(inputType)) {
+    return validationRules[inputType].test(value);
+} else {
+    console.error(`Validation rule for ${inputType} is not defined.`);
+    return false;
+}
+
+
+// Add event listener to the form
+document.getElementById('validationForm').addEventListener('submit', function(event) {
+event.preventDefault(); // Prevent default form submission
+const inputType = document.getElementById('inputType').value;
+const value = document.getElementById('value').value;
+const validationResult = validateInput(inputType, value);
+const resultDisplay = document.getElementById('validationResult');
+resultDisplay.textContent = validationResult ? 'Validation passed' : 'Validation failed';
+});
+
+    </script>
+
+</body>
+</html>
